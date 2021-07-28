@@ -128,7 +128,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# other files to ignore
 logs/
 data/
 config.json~
 database.sqlite
+config.json
