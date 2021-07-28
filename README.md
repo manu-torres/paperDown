@@ -20,6 +20,11 @@ You will also need a way to execute scripts periodically, on linux [cron](https:
 
 Next, run install.py with the python interpreter to create the database at the specified path. The installer will prompt you to introduce the path to the database file and you API key.
 
+```
+#You may be able to run the script with python rather than python3
+python3 install.py
+```
+
 You can move the database file to another location after creating it, but remember to change the path at config.json so that the scripts are aware of the change. The rest of the files (scripts and config.json) must be in the same directory, but you can move the directory itself. If you skipped to add the API key on the installation, you can also add it or change it at config.json at any time.
 
 Once the database has been created and it is at the desired location, you have to add some search terms to query the scopus API. After that is done, you then have to execute the script to start downloading the data.
@@ -30,8 +35,6 @@ This script allows you to perform some basic operations with the database. If yo
 
 ```
 python3 manageDatabase.py add 2020
-
-#You may be able to run the script with python rather than python3
 ```
 
 You can then check if the term was added to the database with
@@ -104,4 +107,4 @@ crontab -e #To edit the crontab for the current user
 */2 * * * * python3 /pathToScript/downloadData.py >> /dev/null 2>&1
 ```
 
-It is not recommended that you execute the script more than one time every two minutes, since it can take a while to get the data.
+It is not recommended that you execute the script more often than once every two minutes, since it can take a while to get the data.
