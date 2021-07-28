@@ -35,7 +35,7 @@ conn.close()
 
 def Help():
     print("""
-This script allows you to add, remove, and list the search terms present in the database to download articles. The first command line parameter determines which action you want to perform. Some actions require a second parameter.
+This script allows you to perform some basic operations with the database. The first command line parameter determines which action you want to perform. Some actions require a second parameter.
 ---------------------
 
 Actions:
@@ -118,7 +118,11 @@ if len(sys.argv) > 1:
         if len(sys.argv) > 2:
             RemoveExpression(sys.argv[2])
         else:
-            print("You must pass a valid search term")
+            if len(Config["ListaTerminos"]) == 0:
+                print("No search terms on the database. Nothing to delete")
+            else:
+                print("You must pass a valid search term that is on the database:")
+                print(Config["ListaTerminos"])
     elif sys.argv[1] in ["help", "h"]:
         Help()
 else:
