@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#Este script crea la base de datos y añade algunas variables imprescindibles para su funcionamiento. Ejecutar al instalar.
+#Este script crea el archivo de configuracion, la base de datos y añade algunas variables imprescindibles para su funcionamiento. Ejecutar al instalar.
 
 import pathlib
 import json
@@ -12,11 +12,19 @@ Rutas["script"] = str(pathlib.Path(__file__).parent.resolve())
 Rutas["config"] = Rutas["script"] + "/config.json"
 Rutas["databaseSchema"] = Rutas["script"] + "/schema.sql"
 
-with open(Rutas["config"], 'r') as file:
-     Config = json.loads(file.read())
+
+print("We need to do some configuration. If you want to change the configuration you can find it at config.json")
+Config = {}
+Config["databasePath"] = input("Please introduce a path for the database. If no path is specified, the database will be created in the same directory as the rest of the files")
+Config["APIkey"] = input("Please introduce your Scopus API key. If you skip this you will have to enter the key every time you want to download data.")
 
 if Config["databasePath"] == "":
     Config["databasePath"] = Rutas["script"] + "/database.sqlite"
+
+Config["databaseExists"] = "False"
+
+#Comprobamos si la base de datos existía
+BaseDatosExiste = pathlib.Path(Config["databasePath"]).exists()
 
 #Creamos la base de datos
 conn = sqlite3.connect(Config["databasePath"])
@@ -27,8 +35,9 @@ with open(Rutas["databaseSchema"], 'r') as sql_file:
 
 c.executescript(sql_script)
 
-#Si es la primera vez que se ejecuta el script, añadimos algunas variables a la base de datos
-if Config["databaseExists"] != "True":
+#Si acabamos de crear la base de datos
+Archivo = pathlib.Path(Config["databasePath"])
+if BaseDatosExiste == False:
     c.executescript("""
               INSERT INTO "Variables" VALUES (NULL,'LimiteDescargas','20000','Muchos terminos de busqueda generan cientos de miles de resultados. Esta variable define el numero maximo de resultados que se descargaran.');
 INSERT INTO "Variables" VALUES (NULL,'ResultadosPagina','25','Numero de resultados que se obtienen por cada solicitud a la API de busqueda.');
@@ -38,7 +47,6 @@ INSERT INTO "Variables" VALUES (NULL,'DescargaAutomatica','1','Especifica si el 
 conn.commit()
 conn.close()
 
-#Especificamos que la base de datos existe en la ruta deseada
 Config["databaseExists"] = "True"
 
 #Actualizamos el archivo de configuracion

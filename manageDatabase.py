@@ -13,10 +13,14 @@ Rutas["script"] = str(pathlib.Path(__file__).parent.resolve())
 Rutas["config"] = Rutas["script"] + "/config.json"
 Rutas["databaseSchema"] = Rutas["script"] + "/schema.sql"
 
-with open(Rutas["config"], 'r') as file:
-     Config = json.loads(file.read())
+try:
+    with open(Rutas["config"], 'r') as file:
+         Config = json.loads(file.read())
+except:
+    print("No config file available. Run install.py first.")
+    quit()
 
-if Config["databaseExists"] != "True":
+if len(Config["databasePath"]) < 2:
     print("Database has not been created")
     quit()
 
@@ -95,7 +99,7 @@ def ListTerms():
     print("Terms in database to download articles:")
     print(Config["ListaTerminos"])
     
-    if len(Consulta) > 0:
+    if len(Consulta) > 1:
         print("-----------------")
         for i in range(len(Consulta)):
             print("Search term: " + str(Consulta[i][0]) + " (" + str(Consulta[i][1]) + " downloads)")

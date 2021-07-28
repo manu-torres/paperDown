@@ -29,8 +29,12 @@ Rutas = {}
 Rutas["script"] = str(pathlib.Path(__file__).parent.resolve())
 Rutas["config"] = Rutas["script"] + "/config.json"
 
-with open(Rutas["config"], 'r') as file:
-     Config = json.loads(file.read())
+try:
+    with open(Rutas["config"], 'r') as file:
+         Config = json.loads(file.read())
+except:
+    print("No config file available. Run install.py first.")
+    quit()
 
 APIkey = Config["APIkey"] #Clave de la API
 
@@ -282,10 +286,11 @@ def DescargaDatos(Busqueda):
 
 #Inicio del script
     
-#Comprobamos que la base de datos esta creada
-if Config["databaseExists"] != "True":
-    print("Database has not been created. Run createDatabase.py first.")
+#Comprobamos que la base de datos esta creada   
+if len(Config["databasePath"]) < 2:
+    print("Database has not been created")
     quit()
+
 #Recuperamos algunas variables de la base de datos
 BaseDatos = Config["databasePath"]
 
