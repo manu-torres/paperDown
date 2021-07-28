@@ -2,11 +2,13 @@
 # -*- coding: utf-8 -*-
 
 #Este script descarga los datos de scopus. Esta pensado para ejecutarse periodicamente a traves de cron. Consulta una lista de terminos de busqueda e itera sobre ellos descargando todos los articulos que los contienen (hasta un limite) y anexandolos a la base de datos
-#Cada vez que se ejecuta hace una sola solicitud a la API. 
+#Cada vez que se ejecuta hace una sola solicitud a la API.
+
 import time
 
 start_time = time.time()
 
+import pathlib
 import urllib.request
 from urllib.error import HTTPError
 import traceback
@@ -23,7 +25,17 @@ from datetime import datetime #para conseguir la fecha
 
 print(datetime.now().strftime("%d/%m/%Y %H:%M:%S") + "   --------------------------")
 
-APIkey = "606ff841eb02e2733457a42eedc43b81" #Clave de la API
+Rutas = {}
+Rutas["script"] = str(pathlib.Path(__file__).parent.resolve())
+Rutas["config"] = Rutas["script"] + "/config.json"
+
+with open(Rutas["config"], 'r') as file:
+     Config = json.loads(file.read())
+
+APIkey = Config["APIkey"] #Clave de la API
+
+if APIkey == "":
+    APIkey = input("No API key in config.json, please enter your SCOPUS API key: ")
 
 def RegistraMensaje(Mensaje, Alerta = False):
     global BaseDatos
@@ -269,8 +281,13 @@ def DescargaDatos(Busqueda):
     conn.close()
 
 #Inicio del script
+    
+#Comprobamos que la base de datos esta creada
+if Config["databaseExists"] != "True":
+    print("Database has not been created. Run createDatabase.py first.")
+    quit()
 #Recuperamos algunas variables de la base de datos
-BaseDatos = "/home/manuel/Documentos/ScopusTFG/DatosScopus.sqlite"
+BaseDatos = Config["databasePath"]
 
 conn = sqlite3.connect(BaseDatos)
     
@@ -303,6 +320,7 @@ except:
         Busqueda = c.fetchone()[0]
     except:
         conn.close()
+        print("There are no search terms on the database. Add one with manageDatabase.py")
         quit()
 
 conn.close()
