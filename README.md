@@ -68,7 +68,7 @@ python3 manageDatabase.py add "depression OR anxiety" #Good
 ### Examples
 
 ```
-#Download all 2020 papers
+#Download all papers published in 2020
 python3 manageDatabase.py add 2020
 
 #Download all papers containing the word depression on the keywords
