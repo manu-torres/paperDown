@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+#Este script permite realizar algunas operaciones basicas sobre la base de datos para poder incorporar y eliminar terminos de busqueda a la herramienta
+
 import pathlib
 import json
 import sqlite3

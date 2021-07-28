@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+#Este script crea la base de datos y añade algunas variables imprescindibles para su funcionamiento. Ejecutar al instalar.
+
 import pathlib
 import json
 import sqlite3
