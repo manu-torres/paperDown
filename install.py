@@ -13,10 +13,10 @@ Rutas["config"] = Rutas["script"] + "/config.json"
 Rutas["databaseSchema"] = Rutas["script"] + "/schema.sql"
 
 
-print("We need to do some configuration. If you want to change the configuration you can find it at config.json")
+print("We need to do some configuration.\nIf you want to change the configuration you can find it at config.json")
 Config = {}
-Config["databasePath"] = input("Please introduce a path for the database. If no path is specified, the database will be created in the same directory as the rest of the files")
-Config["APIkey"] = input("Please introduce your Scopus API key. If you skip this you will have to enter the key every time you want to download data.")
+Config["databasePath"] = input("Please introduce a path for the database.\nIf no path is specified, the database will be created in the same directory as the rest of the files")
+Config["APIkey"] = input("Please introduce your Scopus API key.\nIf you skip this you will have to enter the key every time you want to download data.")
 
 if Config["databasePath"] == "":
     Config["databasePath"] = Rutas["script"] + "/database.sqlite"
