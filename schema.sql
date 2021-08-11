@@ -1,3 +1,4 @@
+--The schema needed to create the database
 BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS "Variables" (
 	"ID"	INTEGER,

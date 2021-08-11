@@ -22,6 +22,7 @@ if Config["databasePath"] == "":
     Config["databasePath"] = Rutas["script"] + "/database.sqlite"
 
 Config["databaseExists"] = "False"
+Config["aplicationPath"] = Rutas["script"]
 
 #Comprobamos si la base de datos existía
 BaseDatosExiste = pathlib.Path(Config["databasePath"]).exists()
@@ -50,5 +51,6 @@ conn.close()
 Config["databaseExists"] = "True"
 
 #Actualizamos el archivo de configuracion
+Config = json.dumps(Config, indent = 4) #Pretty dump
 with open(Rutas["config"], 'w') as file:
-    json.dump(Config, file)
+    file.write(Config)

@@ -18,7 +18,7 @@ pip install -r requirements.txt
 
 You will also need a way to execute scripts periodically, on linux [cron](https://en.wikipedia.org/wiki/Cron) should always be avaible. The script **does not** work on windows (yet).
 
-Next, run install.py with the python interpreter to create the database at the specified path. The installer will prompt you to introduce the path to the database file and you API key.
+Next, run install.py with the python interpreter to create the database at the specified path. The installer will prompt you to introduce the path to the database file and your API key.
 
 ```
 #You may be able to run the script with python rather than python3
